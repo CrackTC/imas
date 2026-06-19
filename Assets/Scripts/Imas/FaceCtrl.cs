@@ -17,6 +17,15 @@ namespace Imas
         public MeshBlendParam[] expressions;
     }
 
+    enum CharacterEyeMode
+    {
+        None = -1,
+        Blink = 0,
+        Open = 1,
+        Close = 2,
+        Num,
+    }
+
     class FaceCtrl
     {
         const float EYE_BLINK_TIME = 6f / 60;
@@ -70,6 +79,7 @@ namespace Imas
         float lipValue;
         int selectedLipEventIdx;
         readonly Character _Character;
+        CharacterEyeMode eye_mode;
 
         static FaceCtrl()
         {
@@ -237,6 +247,8 @@ namespace Imas
         }
 
         public void SetEyesBlink(bool sw) => eyesBlink = sw;
+
+        public void SetLastEyesClose(bool sw) => lastEyesClose = sw;
 
         public void Init2()
         {
@@ -781,5 +793,38 @@ namespace Imas
         }
 
         void SetFaceMaterial(Material material) => face_material = material;
+
+        public void SetEyeMode(CharacterEyeMode mode, bool isInterpolate)
+        {
+            bool eyeClose;
+            switch (mode)
+            {
+                case CharacterEyeMode.Blink:
+                    SetEyesBlink(true);
+                    SetLastEyesClose(false);
+                    eyeClose = false;
+                    break;
+                case CharacterEyeMode.Open:
+                    SetEyesBlink(false);
+                    eyeClose = false;
+                    break;
+                case CharacterEyeMode.Close:
+                    SetEyesBlink(false);
+                    eyeClose = true;
+                    break;
+                default:
+                    eyeClose = false;
+                    break;
+            }
+
+            if (isInterpolate)
+            {
+                SetEyeClose(eyeClose);
+            }
+            else
+            {
+                SetEyeCloseDirect(eyeClose);
+            }
+        }
     }
 }

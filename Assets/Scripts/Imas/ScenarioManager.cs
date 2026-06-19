@@ -90,6 +90,9 @@ namespace Imas
                     case "actor_yes_no":
                         currentCut.Actors.Add(new YesNoActor(seq));
                         break;
+                    case "actor_eye_blink":
+                        currentCut.Actors.Add(new EyeBlinkActor(seq));
+                        break;
                     default:
                         Debug.LogWarning($"Unknown command: {seq.command}");
                         break;
