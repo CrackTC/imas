@@ -246,7 +246,12 @@ namespace Imas
             talking = sw;
         }
 
-        public void SetEyesBlink(bool sw) => eyesBlink = sw;
+        public void SetEyesBlink(bool sw)
+        {
+            eyesBlink = sw;
+            if (sw)
+                nextblinktime = EYE_BLINK_TIME * 2;
+        }
 
         public void SetLastEyesClose(bool sw) => lastEyesClose = sw;
 
