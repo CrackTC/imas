@@ -5,7 +5,7 @@ namespace Imas
         protected string cutId;
         protected int seqId;
         public int from_cut;
-        protected int to;
+        public int to;
         protected bool isEnter;
         protected bool isExit;
 
@@ -13,6 +13,6 @@ namespace Imas
 
         public virtual void Exec() { }
 
-        public virtual void OnUpdate(float time) { }
+        public virtual void OnUpdate(int frame) { }
     }
 }

@@ -93,6 +93,9 @@ namespace Imas
                     case "actor_eye_blink":
                         currentCut.Actors.Add(new EyeBlinkActor(seq));
                         break;
+                    case "actor_eye_direction":
+                        currentCut.Actors.Add(new EyeDirectionActor(seq));
+                        break;
                     default:
                         Debug.LogWarning($"Unknown command: {seq.command}");
                         break;
@@ -145,20 +148,22 @@ namespace Imas
 
                         while (currentTime / SCR_FRAME_TIME < cut.frameCount)
                         {
+                            var currentFrame = currentTime / SCR_FRAME_TIME;
                             foreach (var actor in cut.Actors)
                             {
                                 if (
-                                    actor.from_cut <= currentTime / SCR_FRAME_TIME
+                                    actor.from_cut <= currentFrame
                                     && actor.from_cut > (currentTime - _DeltaTime) / SCR_FRAME_TIME
                                 )
                                 {
                                     Debug.Log(
-                                        $"Executing actor: {actor.GetType().Name} at frame {currentTime / SCR_FRAME_TIME}"
+                                        $"Executing actor: {actor.GetType().Name} at frame {currentFrame}"
                                     );
                                     actor.Exec();
                                 }
 
-                                actor.OnUpdate(currentTime - actor.from_cut);
+                                if (currentFrame > actor.from_cut)
+                                    actor.OnUpdate((int)currentFrame - actor.from_cut);
                             }
 
                             _DeltaTime = 0.0f;

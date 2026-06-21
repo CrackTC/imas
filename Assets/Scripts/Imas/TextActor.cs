@@ -43,12 +43,11 @@ namespace Imas
 
         int _Index = 0;
 
-        public override void OnUpdate(float time)
+        public override void OnUpdate(int frame)
         {
             if (_Character == null)
                 return;
 
-            var frame = time / ScenarioManager.SCR_FRAME_TIME;
             while (_Index < _FHouts.Length)
             {
                 var fhout = _FHouts[_Index];

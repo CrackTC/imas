@@ -15,6 +15,7 @@ namespace Imas
 
         public GameObject Body { get; private set; }
         public GameObject Head { get; private set; }
+        public GameObject Eye { get; private set; }
         public FaceCtrl FaceCtrl { get; private set; }
         public EyeTracking EyeTracking { get; private set; }
         public Animator Animator { get; private set; }
@@ -52,7 +53,17 @@ namespace Imas
             model00.gameObject.AddComponent<BoneLib.CalcBone>();
 
             Head = Instantiate(ch_ab.LoadAsset<GameObject>($"ch_{resourceID}"), Body.transform);
-            EyeTracking = Head.AddComponent<EyeTracking>();
+
+            Eye = new GameObject("Eye_obj");
+            Eye.transform.SetParent(Head.transform.Find("KUBI/ATAMA"), false);
+            Eye.transform.position = Head
+                .transform.Find("obj_head_GP/eyes")
+                .GetComponent<SkinnedMeshRenderer>()
+                .bounds.center;
+            EyeTracking = Eye.AddComponent<EyeTracking>();
+            EyeTracking.Init(this);
+            EyeTracking.SetEyeDirectionByRate(0f, 0f);
+
             FaceCtrl = new FaceCtrl(this);
             FaceCtrl.SetEyesBlink(true);
             FaceCtrl.Init();
@@ -96,6 +107,7 @@ namespace Imas
 
             SyncHead();
             FaceCtrl.Action();
+            EyeTracking.EyeUpdate();
         }
     }
 }
