@@ -135,13 +135,17 @@ namespace Imas
             var index = 0;
             while (true)
             {
-                yield return new WaitUntil(() => _IsPlaying);
+                if (!_IsPlaying)
+                    yield return new WaitUntil(() => _IsPlaying);
+
                 var seq = _Scenario.datas.Scenario[index];
                 switch (seq.command)
                 {
                     case "play_cut":
                         var cutId = seq.arg1;
                         var cut = _Cuts[cutId];
+                        if (cut.CutType == CutType.NORMAL)
+                            _IsPlaying = false;
                         var currentTime = 0.0f;
 
                         Debug.Log($"Playing cut: {cutId}");
