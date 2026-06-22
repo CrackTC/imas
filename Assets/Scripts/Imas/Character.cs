@@ -27,9 +27,9 @@ namespace Imas
 
         public void SetVisible(bool visible) => gameObject.SetActive(visible);
 
-        public void SetPosition(Vector3 position) => Body.transform.position = position;
+        public void SetPosition(Vector3 position) => transform.position = position;
 
-        public void SetRotation(Vector3 eulerAngle) => Body.transform.localEulerAngles = eulerAngle;
+        public void SetRotation(Vector3 eulerAngle) => transform.eulerAngles = eulerAngle;
 
         public IEnumerator InitializeAsync(string characterID, string resourceID)
         {

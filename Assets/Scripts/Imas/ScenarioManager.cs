@@ -96,6 +96,9 @@ namespace Imas
                     case "actor_eye_direction":
                         currentCut.Actors.Add(new EyeDirectionActor(seq));
                         break;
+                    case "actor_chara_dorotate":
+                        currentCut.Actors.Add(new CharaDoRotateActor(seq));
+                        break;
                     default:
                         Debug.LogWarning($"Unknown command: {seq.command}");
                         break;
