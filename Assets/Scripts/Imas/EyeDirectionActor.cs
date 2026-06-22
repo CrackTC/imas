@@ -42,12 +42,13 @@ namespace Imas
 
         public override void OnUpdate(int frame)
         {
-            if (mCharacter == null || frame > to - from_cut)
+            if (mCharacter == null || _LastFrame >= to - from_cut)
                 return;
+            var deltaFrame = Mathf.Clamp(frame, frame, to - from_cut) - _LastFrame;
             var eyeDirectionRate = mCharacter.EyeTracking.GetEyeDirectionRate();
             mCharacter.EyeTracking.SetEyeDirectionByRate(
-                eyeDirectionRate.x + hvec * (frame - _LastFrame),
-                eyeDirectionRate.y + vvec * (frame - _LastFrame)
+                eyeDirectionRate.x + hvec * deltaFrame,
+                eyeDirectionRate.y + vvec * deltaFrame
             );
             _LastFrame = frame;
         }
